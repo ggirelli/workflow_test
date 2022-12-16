@@ -34,5 +34,5 @@ jobs:
             fi
 
             echo "Tagging $new_tag"
-            gh release create --prerelease --generate-notes "$new_tag"
+            gh release create --generate-notes "$new_tag"
           fi
