@@ -7,29 +7,32 @@ jobs:
   tag-release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@main
+      - uses: actions/checkout@master
         with:
-          ref: main
+          ref: master
       - name: Tag release
         env:
           GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
           TZ: PST8PDT
         run: |
           git fetch origin tag "$(gh release list -L1 | cut -f1)"
-          if git describe --tags --exact-match origin/main; then
+          if git describe --tags --exact-match origin/master; then
             echo 'Error: No new commits since the most recent release'
             exit 1
           else
-            current_date=$(date '+%Y.%m%d.')
-            echo "curent date seed $current_date"
-            today_tags=$(git tag -l | grep "$current_date")
-            echo "today tags: $today_tags"
+            seed=$(date '+%Y.%m%d.')
+            echo "Looking for tags: ""$seed""X"
+
+            today_tags=$(git tag -l | grep "$seed")
+            echo "Found tags: $today_tags"
+
             if [ -z "$today_tags" ]; then
-              new_tag_z=0
+              new_tag="$seed"0
             else
-              last_z=$(tail -n 1 $today_tags | cut -d "." -f 3)
-              new_tag_z="$(($last_z + 1))"
+              last_z=$(echo "$today_tags" | tail -n 1 | cut -d "." -f 3)
+              new_tag="$seed""$(($last_z + 1))"
             fi
-            echo "Tagging $current_date$new_tag_z"
-            gh release create --prerelease --generate-notes "$current_date$new_tag_z"
+
+            echo "Tagging $new_tag"
+            gh release create --prerelease --generate-notes "$new_tag"
           fi
