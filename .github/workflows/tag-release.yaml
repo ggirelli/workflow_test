@@ -23,7 +23,7 @@ jobs:
             seed=$(date '+%Y.%m%d.')
             echo "Looking for tags: $seed*"
 
-            today_tags=$(git describe --tags --match "$seed*" || echo "")
+            today_tags=$(git describe --all --tags --match "$seed*" || echo "")
             echo "Found tags: '$today_tags'"
 
             if [[ -z "$today_tags" ]]; then
