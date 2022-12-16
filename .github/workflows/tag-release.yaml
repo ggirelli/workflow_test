@@ -28,5 +28,6 @@ jobs:
               last_z=$(tail -n 1 $today_tags | cut -d "." -f 3)
               new_tag_z="$(($last_z + 1))"
             fi
-            gh release create --prerelease --generate-notes "$(date '+%Y.%m%d.$new_tag_z')"
+            echo "Tagging $current_date$new_tag_z"
+            gh release create --prerelease --generate-notes "$current_date$new_tag_z"
           fi
