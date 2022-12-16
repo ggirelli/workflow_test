@@ -21,7 +21,9 @@ jobs:
             exit 1
           else
             current_date=$(date '+%Y.%m%d.')
+            echo "curent date seed $current_date"
             today_tags=$(git tag -l | grep "$current_date")
+            echo "today tags: $today_tags"
             if [ -z "$today_tags" ]; then
               new_tag_z=0
             else
