@@ -1,0 +1,31 @@
+name: Tag release
+on:
+  schedule:
+    - cron: 37 9 * * 0
+jobs:
+  tag-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+        with:
+          ref: master
+      - name: Tag release
+        env:
+          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          TZ: PST8PDT
+        run: |
+          git fetch origin tag "$(gh release list -L1 | cut -f1)"
+          if git describe --tags --exact-match origin/master; then
+            echo 'Error: No new commits since the most recent release'
+            exit 1
+          else
+            current_date=$(date '+%Y.%m%d.')
+            today_tags=$(git tag -l | grep "$current_date")
+            if [ -z "$today_tags" ]; then
+              new_tag_z=0
+            else
+              last_z=$(tail -n 1 $today_tags | cut -d "." -f 3)
+              new_tag_z="$(($last_z + 1))"
+            fi
+            gh release create --prerelease --generate-notes "$(date '+%Y.%m%d.$new_tag_z')"
+          fi
