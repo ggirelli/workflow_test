@@ -16,14 +16,14 @@ jobs:
           TZ: PST8PDT
         run: |
           git fetch origin tag "$(gh release list -L1 | cut -f1)"
-          if git describe --tags --exact-match origin/main; then
+          if git describe --tags --exact-match origin/master; then
             echo 'Error: No new commits since the most recent release'
             exit 1
           else
             seed=$(date '+%Y.%m%d.')
-            echo "Looking for tags: ""$seed""X"
+            echo "Looking for tags: $seed*"
 
-            today_tags=$(git tag -l | grep "$seed")
+            today_tags=$(git describe --tags --match "$seed*")
             echo "Found tags: $today_tags"
 
             if [ -z "$today_tags" ]; then
