@@ -12,7 +12,7 @@ jobs:
     name: Validate PR title
     runs-on: ubuntu-latest
     steps:
-      - uses: ggirelli/action-semantic-pull-request@v5
+      - uses: amann/action-semantic-pull-request@v5
         id: lint_pr_title
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -20,6 +20,8 @@ jobs:
           # Ensure the subject doesn't start with an uppercase character.
           # Ensure the subject doesn't end with a dot ".".
           subjectPattern: '^(?![A-Z]).+(?<!\.)$'
+          headerPattern: '^(\w*)(?:\(([\w$.\-*/ ]*)\))?: (.*)(?<=.{0,50})$'
+          headerPatternCorrespondence: type, scope, subject
 
       - uses: marocchino/sticky-pull-request-comment@v2
         # When the previous steps fails, the workflow would stop. By adding this
