@@ -34,6 +34,7 @@ jobs:
           ```
           ${{ steps.lint_pr_title.outputs.error_message }}
           ```
+          
           You can also check out our guidelines [here](https://docs.google.com/document/d/1BipdXiNVI8y_qXvYOV5kXhGuwOtcT7iwITsfa_13LWk/edit#).
 
     # Delete a previous comment when the issue has been resolved
