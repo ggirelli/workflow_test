@@ -19,8 +19,8 @@ jobs:
         with:
           # Ensure the subject doesn't start with an uppercase character.
           # Ensure the subject doesn't end with a dot ".".
-          subjectPattern: ^(?![A-Z]).+(?<!\.)$
-          headerPattern: '^(?=.{0,50})(\w*)(?:\(([\w$.\-*/ ]*)\))?: (.*)$'
+          subjectPattern: '^(?![A-Z]).+(?<!\.)$'
+          headerPattern: '^(?=.{0,50})((\w*)(?:\(([\w$.\-*/ ]*)\))?: (.*))$'
           headerPatternCorrespondence: type, scope, subject
 
       - uses: marocchino/sticky-pull-request-comment@v2
