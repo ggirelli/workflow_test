@@ -1,0 +1,27 @@
+name: "Pull Request Linter"
+
+on:
+  pull_request_target:
+    types:
+    - opened
+    - edited
+    - synchronize
+
+jobs:
+  main:
+    name: Validate PR title
+    runs-on: ubuntu-latest
+    steps:
+    - uses: amannn/action-semantic-pull-request@v5
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        # Ensure the subject doesn't start with an uppercase character.
+        # Ensure the subject doesn't end with a dot ".".
+        subjectPattern: ^(?![A-Z]).+(?!\.)$
+        # If the PR only contains a single commit, the action will validate that
+        # it matches the configured pattern.
+        validateSingleCommit: true
+        # Related to `validateSingleCommit` you can opt-in to validate that the PR
+        # title matches a single commit to avoid confusion.
+        validateSingleCommitMatchesPrTitle: true
