@@ -20,7 +20,7 @@ jobs:
           # Ensure the subject doesn't start with an uppercase character.
           # Ensure the subject doesn't end with a dot ".".
           subjectPattern: '^(?![A-Z]).+(?<!\.)$'
-          headerLength: 50
+          maxHeaderLength: 50
 
       - uses: marocchino/sticky-pull-request-comment@v2
         # When the previous steps fails, the workflow would stop. By adding this
