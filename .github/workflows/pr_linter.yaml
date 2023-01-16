@@ -20,7 +20,7 @@ jobs:
           # Ensure the subject doesn't start with an uppercase character.
           # Ensure the subject doesn't end with a dot ".".
           subjectPattern: '^(?![A-Z]).+(?<!\.)$'
-          headerPattern: '^(?=.{0,50})((\w*)(?:\(([\w$.\-*/ ]*)\))?: (.*))$'
+          headerPattern: '^(?=.{0,50})(\w*)(?:\(([\w$.\-*/ ]*)\))?: (.*)$'
           headerPatternCorrespondence: type, scope, subject
 
       - uses: marocchino/sticky-pull-request-comment@v2
@@ -30,12 +30,10 @@ jobs:
         with:
           header: pr-title-lint-error
           message: |
-            Hey there and thank you for opening this pull request! 👋🏼
+            PR titles must follow the [Conventional Commits specification](https://www.conventionalcommits.org/en/v1.0.0/).
             
-            We require pull request titles to follow the [Conventional Commits specification](https://www.conventionalcommits.org/en/v1.0.0/) and it looks like your proposed title needs to be adjusted.
+            It looks like your proposed title needs to be adjusted.
 
-            Details:
-            
             ```
             ${{ steps.lint_pr_title.outputs.error_message }}
             ```
