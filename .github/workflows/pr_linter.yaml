@@ -1,4 +1,4 @@
-name: "Lint PR"
+name: "Pull Request Linter"
 
 on:
   pull_request_target:
@@ -16,6 +16,10 @@ jobs:
         id: lint_pr_title
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # Ensure the subject doesn't start with an uppercase character.
+          # Ensure the subject doesn't end with a dot ".".
+          subjectPattern: ^(?![A-Z]).+(?!\.)$
 
       - uses: marocchino/sticky-pull-request-comment@v2
         # When the previous steps fails, the workflow would stop. By adding this
@@ -33,6 +37,8 @@ jobs:
             ```
             ${{ steps.lint_pr_title.outputs.error_message }}
             ```
+            
+            You can also check out our guidelines [here](https://docs.google.com/document/d/1BipdXiNVI8y_qXvYOV5kXhGuwOtcT7iwITsfa_13LWk/edit#).
 
       # Delete a previous comment when the issue has been resolved
       - if: ${{ steps.lint_pr_title.outputs.error_message == null }}
